@@ -7,9 +7,18 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockKernelPluginPlatform
     with MockPlatformInterfaceMixin
     implements KernelPluginPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<String?> startKernel(String cmd, String args) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int?> sum(int num1, int num2) {
+    throw UnimplementedError();
+  }
 }
 
 void main() {

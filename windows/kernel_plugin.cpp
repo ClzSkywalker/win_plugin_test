@@ -21,6 +21,8 @@
 
 using namespace std;
 
+const char kMenuSetMethod[] = "startKernel";
+
 namespace kernel_plugin
 {
 	using flutter::EncodableMap;
@@ -90,7 +92,7 @@ namespace kernel_plugin
 			int num3 = num1 + num2;
 			result->Success(flutter::EncodableValue(num3));
 		}
-		if (method_call.method_name().compare("startKernel") == 0) {
+		if (method_call.method_name().compare(kMenuSetMethod) == 0) {
 			const auto* arguments = std::get_if<flutter::EncodableList>(method_call.arguments());
 			if (!arguments)
 			{
@@ -119,65 +121,67 @@ namespace kernel_plugin
 	}
 
 	void startProcess1(string cmd, string args) {
-		STARTUPINFO si = { sizeof(si) };
-		PROCESS_INFORMATION pi;
-		DWORD exitCode;
+		std::string result = cmd + " " + args;
+		system(result.c_str());
+		//STARTUPINFO si = { sizeof(si) };
+		//PROCESS_INFORMATION pi;
+		//DWORD exitCode;
 
-		ZeroMemory(&si, sizeof(si));
-		si.cb = sizeof(si);
-		ZeroMemory(&pi, sizeof(pi));
+		//ZeroMemory(&si, sizeof(si));
+		//si.cb = sizeof(si);
+		//ZeroMemory(&pi, sizeof(pi));
 
-		// 调用CreateProcess启动后台进程
-		// string cmd = path + " " + args;
-		//TCHAR szCommandLine[] = TEXT(*(cmd.c_str()));
-		cout << "3t" << endl;
-		BOOL bResult;
-		// (LPWSTR)cmd.c_str() (LPWSTR)cmd.c_str()
-		string p = cmd + " " + args;
-		bResult = CreateProcess((LPWSTR)cmd.c_str(), (LPWSTR)args.c_str(), NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);// &si, &pi
-		cout << cmd.c_str() << endl;
-		cout << args.c_str() << endl;
-		cout << p.c_str() << endl;
-		cout << "4t" << endl;
-		// 循环检测后台进程是否结束，如果结束则退出该线程
-		if (!bResult)
-		{
-			// CreateProcess方法出现错误
-			LPVOID lpMsgBuf;
-			DWORD dw = GetLastError();
+		//// 调用CreateProcess启动后台进程
+		//// string cmd = path + " " + args;
+		////TCHAR szCommandLine[] = TEXT(*(cmd.c_str()));
+		//cout << "3t" << endl;
+		//BOOL bResult;
+		//// (LPWSTR)cmd.c_str() (LPWSTR)cmd.c_str()  (LPWSTR)args.c_str()
+		//string p = cmd + " " + args;
+		//bResult = CreateProcess((LPCWSTR)cmd.c_str(),NULL , NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);// &si, &pi
+		//cout << cmd.c_str() << endl;
+		//cout << args.c_str() << endl;
+		//cout << p.c_str() << endl;
+		//cout << "4t" << endl;
+		//// 循环检测后台进程是否结束，如果结束则退出该线程
+		//if (!bResult)
+		//{
+		//	// CreateProcess方法出现错误
+		//	LPVOID lpMsgBuf;
+		//	DWORD dw = GetLastError();
 
-			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-				FORMAT_MESSAGE_FROM_SYSTEM |
-				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
-				dw,
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				(LPTSTR)&lpMsgBuf,
-				0, NULL);
+		//	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		//		FORMAT_MESSAGE_FROM_SYSTEM |
+		//		FORMAT_MESSAGE_IGNORE_INSERTS,
+		//		NULL,
+		//		dw,
+		//		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		//		(LPTSTR)&lpMsgBuf,
+		//		0, NULL);
 
-			// 打印错误信息
-			MessageBox(NULL, (LPCTSTR)lpMsgBuf, TEXT("Error"), MB_OK | MB_ICONERROR);
-			LocalFree(lpMsgBuf);
-		}
+		//	// 打印错误信息
+		//	MessageBox(NULL, (LPCTSTR)lpMsgBuf, TEXT("Error"), MB_OK | MB_ICONERROR);
+		//	LocalFree(lpMsgBuf);
+		//}
 
-		while (true) {
-			if (GetExitCodeProcess(pi.hProcess, &exitCode)) {
-				cout << "get exit" << endl;
-				if (exitCode != STILL_ACTIVE) {
-					break;
-				}
-			}
-			else {
-				// 获取进程退出码失败，处理错误
-				cout << "GetExitCodeProcess error" << endl;
-				// break;
-			}
-			// 睡眠一段时间，避免频繁检测和占用CPU资源
-			Sleep(1000);
-		}
-		// 释放进程和线程的句柄
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
+		//while (true) {
+		//	if (GetExitCodeProcess(pi.hProcess, &exitCode)) {
+		//		cout << "get exit" << endl;
+		//		if (exitCode != STILL_ACTIVE) {
+		//			break;
+		//		}
+		//	}
+		//	else {
+		//		// 获取进程退出码失败，处理错误
+		//		cout << "GetExitCodeProcess error" << endl;
+		//		// break;
+		//	}
+		//	// 睡眠一段时间，避免频繁检测和占用CPU资源
+		//	Sleep(1000);
+		//}
+		//// 释放进程和线程的句柄
+		//CloseHandle(pi.hProcess);
+		//CloseHandle(pi.hThread);
 	}
 
 } // namespace kernel_plugin

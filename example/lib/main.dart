@@ -41,13 +41,13 @@ Future<Dir> initPath() async {
 
 void startKernel(RootIsolateToken rootIsolateToken) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
-  final _kernelPlugin = KernelPlugin();
+  final kernelPlugin = KernelPlugin();
   var dir = await initPath();
   String args =
       "api --port=6905 --mode=test --dbPath=${dir.dbPath} --logPath=${dir.logPath}";
   String kernelPath =
-      "D:\\project\\flutter\\kernel_plugin\\example\\windows\\flutter\\ephemeral\\.plugin_symlinks\\kernel_plugin\\windows\\assert\\kernel\\kernel.exe";
-  await _kernelPlugin.startKernel(kernelPath, args);
+      "E:\\Golang\\event_shop_kernal\\output\\windows\\kernel.exe";
+  await kernelPlugin.startKernel(kernelPath, args);
 }
 
 class _MyAppState extends State<MyApp> {
