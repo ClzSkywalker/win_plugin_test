@@ -28,4 +28,11 @@ class MethodChannelKernelPlugin extends KernelPluginPlatform {
         await methodChannel.invokeMethod<String>('startKernel', [cmd, args]);
     return result;
   }
+
+  @override
+  Future<String?> startKernelMap(Map<String, Object> param) async {
+    final result =
+        await methodChannel.invokeMethod<String>('startKernelMap', param);
+    return result;
+  }
 }

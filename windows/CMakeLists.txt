@@ -1,4 +1,4 @@
-# The Flutter tooling requires that developers have a version of Visual Studio
+﻿# The Flutter tooling requires that developers have a version of Visual Studio
 # installed that includes CMake 3.14 or later. You should not increase this
 # version, as doing so will cause the plugin to fail to compile for some
 # customers of the plugin.
@@ -48,6 +48,6 @@ target_link_libraries(${PLUGIN_NAME} PRIVATE flutter flutter_wrapper_plugin)
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
 set(kernel_plugin_bundled_libraries
-  ""
+  "${PROJECT_SOURCE_DIR}/bin/"
   PARENT_SCOPE
 )

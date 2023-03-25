@@ -34,4 +34,8 @@ abstract class KernelPluginPlatform extends PlatformInterface {
   Future<String?> startKernel(String cmd, String args) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
+
+  Future<String?> startKernelMap(Map<String, Object> param) {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
 }
